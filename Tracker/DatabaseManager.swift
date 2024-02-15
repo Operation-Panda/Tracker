@@ -45,24 +45,28 @@ class DatabaseManager: ObservableObject {
     init() {
         Task {
             do {
-                let sleepDataPoints = try await fetchSleepDataPoints()
-                let socialDataPoints = try await fetchSocialDataPoints()
-                await MainActor.run { //to pass the values to the @Published variables
-                    self.sleepDataPoints = sleepDataPoints
-                    self.socialDataPoints = socialDataPoints
-                }
+//                let sleepDataPoints = try await fetchSleepDataPoints()
+//                let socialDataPoints = try await fetchSocialDataPoints()
+                //await MainActor.run { //to pass the values to the @Published variables
+//                    self.sleepDataPoints = sleepDataPoints
+//                    self.socialDataPoints = socialDataPoints
+                    try await fetchSleepDataPoints()
+                    try await fetchSocialDataPoints()
+                //}
             } catch {
                 print(error.localizedDescription)
             }
         }
     }
     
-    func fetchSleepDataPoints() async throws -> [SleepDataPoints] {
-        return try await client.database.from("Sleep Data Points").select().execute().value
+    
+    
+    func fetchSleepDataPoints() async throws {
+        sleepDataPoints = try await client.database.from("Sleep Data Points").select().execute().value
     }
     
-    func fetchSocialDataPoints() async throws -> [SocialDataPoints] {
-        return try await client.database.from("Social Data Points").select().execute().value
+    func fetchSocialDataPoints() async throws {
+        socialDataPoints = try await client.database.from("Social Data Points").select().execute().value
     }
     
     func postSleepData(SleepHours: Int, feeling: Int, productivity: Int, date: Date) async throws {

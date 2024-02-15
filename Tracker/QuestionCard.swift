@@ -65,6 +65,8 @@ struct QuestionCard: View {
                         } else {
                             Task {
                                 try await manager.postSocialData(SocialHours: hoursAnswer, feeling: feelingAnswer, productivity: productivityAnswer, date: Date())
+                                try await manager.fetchSleepDataPoints()
+                                try await manager.fetchSocialDataPoints()
                             }
                             dismiss()
                         }

@@ -150,14 +150,14 @@ struct ContentView: View {
                     } else {
                         emptyChart
                     }
-                    
+                     
                     VStack(spacing: 10) {
                         if let maxEmoSocialState = emoSocialState.max {
                             HStack(alignment: .top) {
                                 Image(systemName: "asterisk")
                                     .foregroundColor(.blue)
                                     .opacity(0.7)
-                                Text("The hightest productive state was \(maxEmoSocialState.productivity) on \(maxEmoSocialState.createdAt.toString()) after \(maxEmoSocialState.SocialHours) hours of social engagement.")
+                                Text("The hightest productive state was \(maxEmoSocialState.productivity) on \(maxEmoSocialState.createdAt.toString()) after \(maxEmoSocialState.SocialHours) \(maxEmoSocialState.SocialHours == 1 ? "hour" : "hours") of social engagement.")
                             }
                         }
                         if let minEmoSocialState = emoSocialState.min {
@@ -165,7 +165,7 @@ struct ContentView: View {
                                 Image(systemName: "asterisk")
                                     .foregroundColor(.cyan)
                                     .opacity(0.7)
-                                Text("The lowest productive state was \(minEmoSocialState.productivity) on \(minEmoSocialState.createdAt.toString()) after \(minEmoSocialState.SocialHours) hours of social engagement.")
+                                Text("The lowest productive state was \(minEmoSocialState.productivity) on \(minEmoSocialState.createdAt.toString()) after \(minEmoSocialState.SocialHours) \(minEmoSocialState.SocialHours == 1 ? "hour" : "hours") of social engagement.")
                             }
                         } 
                     }
@@ -195,7 +195,7 @@ struct ContentView: View {
                                 Image(systemName: "asterisk")
                                     .foregroundColor(.blue)
                                     .opacity(0.7)
-                                Text("The hightest productive state was \(maxProSocialState.productivity) on \(maxProSocialState.createdAt.toString()) after \(maxProSocialState.SocialHours) hours of social engagement.")
+                                Text("The hightest productive state was \(maxProSocialState.productivity) on \(maxProSocialState.createdAt.toString()) after \(maxProSocialState.SocialHours) \(maxProSocialState.SocialHours == 1 ? "hour" : "hours") of social engagement.")
                             }
                         }
                         
@@ -204,7 +204,7 @@ struct ContentView: View {
                                 Image(systemName: "asterisk")
                                     .foregroundColor(.cyan)
                                     .opacity(0.7)
-                                Text("The lowest productive state was \(minProSocialState.productivity) on \(minProSocialState.createdAt.toString()) after \(minProSocialState.SocialHours) hours of social engagement.")
+                                Text("The lowest productive state was \(minProSocialState.productivity) on \(minProSocialState.createdAt.toString()) after \(minProSocialState.SocialHours) \(minProSocialState.SocialHours == 1 ? "hour" : "hours") of social engagement.")
                             }
                         }
                         NavigationLink(destination: QuestionCard(quizCase: .social).environmentObject(manager)) {
@@ -219,10 +219,19 @@ struct ContentView: View {
                     .foregroundColor(.gray)
                     .padding(.bottom)
                 }
+                .onAppear {
+                    do {
+                        Task {
+                            try await manager.fetchSleepDataPoints()
+                            try await manager.fetchSocialDataPoints()
+                        }
+                    }
+                }
                 .padding()
             }
         }
     }
+        
     
     var emptyChart: some View {
         HStack(alignment: .top) {
