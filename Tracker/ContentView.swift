@@ -65,21 +65,23 @@ struct ContentView: View {
                         emptyChart
                     }
                     VStack(spacing: 10) {
-                        if let maxEmoSleepState = emoSleepState.max, let minEmoSleepState = emoSleepState.min {
-                                HStack(alignment: .top) {
-                                    Image(systemName: "asterisk")
-                                        .foregroundColor(.blue)
-                                        .opacity(0.7)
-                                    Text("The hightest productive state was \(maxEmoSleepState.productivity) on \(maxEmoSleepState.createdAt.toString()) after \(maxEmoSleepState.SleepHours) hours of sleep.")
-                                        .foregroundColor(.gray)
-                                }
-                                HStack(alignment: .top) {
-                                    Image(systemName: "asterisk")
-                                        .foregroundColor(.cyan)
-                                        .opacity(0.7)
-                                    Text("The lowest productive state was \(minEmoSleepState.productivity) on \(minEmoSleepState.createdAt.toString()) after \(minEmoSleepState.SleepHours) hours of sleep.")
-                                        .foregroundColor(.gray)
-                                }
+                        if let maxEmoSleepState = emoSleepState.max {
+                            HStack(alignment: .top) {
+                                Image(systemName: "asterisk")
+                                    .foregroundColor(.blue)
+                                    .opacity(0.7)
+                                Text("The hightest productive state was \(maxEmoSleepState.productivity) on \(maxEmoSleepState.createdAt.toString()) after \(maxEmoSleepState.SleepHours) \(maxEmoSleepState.SleepHours == 1 ? "hour" : "hours") of sleep.")
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        if let minEmoSleepState = emoSleepState.min {
+                            HStack(alignment: .top) {
+                                Image(systemName: "asterisk")
+                                    .foregroundColor(.cyan)
+                                    .opacity(0.7)
+                                Text("The lowest productive state was \(minEmoSleepState.productivity) on \(minEmoSleepState.createdAt.toString()) after \(minEmoSleepState.SleepHours) \(minEmoSleepState.SleepHours == 1 ? "hour" : "hours") of sleep.")
+                                    .foregroundColor(.gray)
+                            }
                         }
                     }
                     .padding(.bottom)
@@ -103,18 +105,20 @@ struct ContentView: View {
                     }
                     
                     VStack(spacing: 10) {
-                        if let maxProSleepState = proSleepState.max, let minProSleepState = proSleepState.min {
-                                HStack(alignment: .top) {
-                                    Image(systemName: "asterisk")
-                                        .foregroundColor(.blue)
-                                        .opacity(0.7)
-                                    Text("The hightest productive state was \(maxProSleepState.productivity) on \(maxProSleepState.createdAt.toString()) after \(maxProSleepState.SleepHours) hours of sleep.")
-                                }
+                        if let maxProSleepState = proSleepState.max {
+                            HStack(alignment: .top) {
+                                Image(systemName: "asterisk")
+                                    .foregroundColor(.blue)
+                                    .opacity(0.7)
+                                Text("The hightest productive state was \(maxProSleepState.productivity) on \(maxProSleepState.createdAt.toString()) after \(maxProSleepState.SleepHours) \(maxProSleepState.SleepHours == 1 ? "hour" : "hours") of sleep.")
+                            }
+                        }
+                        if let minProSleepState = proSleepState.min {
                                 HStack(alignment: .top) {
                                     Image(systemName: "asterisk")
                                         .foregroundColor(.cyan)
                                         .opacity(0.7)
-                                    Text("The lowest productive state was \(minProSleepState.productivity) on \(minProSleepState.createdAt.toString()) after \(minProSleepState.SleepHours) hours of sleep.")
+                                    Text("The lowest productive state was \(minProSleepState.productivity) on \(minProSleepState.createdAt.toString()) after \(minProSleepState.SleepHours) \(minProSleepState.SleepHours == 1 ? "hour" : "hours") of sleep.")
                                 }
                         }
                         NavigationLink(destination: QuestionCard(quizCase: .sleep).environmentObject(manager)) {
